@@ -4,23 +4,10 @@ const content = document.querySelector('.content');
 const successMessage = document.getElementById('successMessage');
 const appView = document.getElementById('app-view');
 const gameWorld = document.getElementById('game-world');
-const simBtn = document.getElementById('simBtn');
 
 let yesSize = 1;
 let hoverCount = 0;
 let isAllYes = false;
-
-// Mobile Simulator Toggle
-simBtn.addEventListener('click', () => {
-    appView.classList.toggle('mobile-sim');
-    if (appView.classList.contains('mobile-sim')) {
-        simBtn.innerText = "💻 Toggle Desktop View";
-        yesBtn.style.transform = 'scale(1)'; // Reset scale for mobile
-    } else {
-        simBtn.innerText = "📱 Toggle Mobile View";
-        yesBtn.style.transform = `scale(${yesSize})`; // Restore scale for desktop
-    }
-});
 
 function teleportNo() {
     const padding = 20;
@@ -84,8 +71,8 @@ function moveNoButton() {
     hoverCount++;
 
     // Scale Yes bigger
-    // Check if mobile (simulated or real)
-    const isMobile = appView.classList.contains('mobile-sim') || window.innerWidth <= 600;
+    // Check if mobile (screen width)
+    const isMobile = window.innerWidth <= 600;
 
     if (hoverCount < 5 && !isMobile) {
         yesSize += 0.5;
