@@ -1,0 +1,376 @@
+:root {
+    --primary: #ff4d6d;
+    --primary-glow: #ff758f;
+    --secondary: #ffccd5;
+    --text: #590d22;
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --shadow: 0 20px 50px rgba(255, 77, 109, 0.3);
+    --bezier: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background: #333;
+    /* Dark background for simulator focus */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: var(--text);
+}
+
+/* Define Container context for accurate scaling relative to parent (phone or screen) */
+#app-view {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    /* BACKGROUND IS HERE NORMALLY */
+    background: linear-gradient(-45deg, #fff0f3, #ffe5ec, #ffccd5, #ffb3c1);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    transition: all 0.5s ease;
+}
+
+#game-world {
+    container-type: size;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Simulator Mode - Realistic Phone Bezel */
+.mobile-sim #game-world {
+    width: 375px !important;
+    height: 667px !important;
+    border: 14px solid #111;
+    border-radius: 45px;
+    box-shadow:
+        0 0 0 2px #333,
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+    /* Inner bezel highlight */
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(-45deg, #fff0f3, #ffe5ec, #ffccd5, #ffb3c1);
+    /* Ensure container query sees this size */
+}
+
+/* Add a "Notch" and "Home Bar" */
+.mobile-sim #game-world::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 30px;
+    background: #111;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.mobile-sim #game-world::before {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 5px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+
+/* Hide main BG when sim is active to focus on phone */
+.mobile-sim {
+    background: #222 !important;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+#app-view.mobile-sim {
+    background: #1a1a1a !important;
+    animation: none;
+}
+
+#simBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: var(--white);
+    color: var(--text);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
+
+.container {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    padding: 4rem 2rem;
+    border-radius: 50px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    max-width: 700px;
+    width: 90%;
+    z-index: 10;
+    animation: fadeInScale 0.8s var(--bezier);
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6cqi, 4rem);
+    /* Use cqi so it scales with container */
+    margin-bottom: 3rem;
+    line-height: 1.1;
+    color: var(--text);
+    background: linear-gradient(to bottom, #590d22, #ff4d6d);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    min-height: 220px;
+    position: relative;
+}
+
+.btn {
+    padding: 1.2rem 3.5rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.5s var(--bezier);
+    box-shadow: 0 10px 20px rgba(255, 77, 109, 0.15);
+}
+
+.yes {
+    background: linear-gradient(135deg, var(--primary), #ff758f);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.6);
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(255, 77, 109, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 77, 109, 0);
+    }
+}
+
+.yes:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(255, 77, 109, 0.4);
+}
+
+.no {
+    background-color: var(--white);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+}
+
+.no:hover {
+    background: #fff0f3;
+    z-index: 1000;
+}
+
+#successMessage h1 {
+    font-size: clamp(3rem, 10vw, 5rem);
+    animation: celebrate 1s var(--bezier);
+    background: linear-gradient(to right, #ff0050, #ff8fa3, #ff0050);
+    background-size: 200% auto;
+    animation: celebrate 1s var(--bezier), shiny 3s linear infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@keyframes shiny {
+    to {
+        background-position: 200% center;
+    }
+}
+
+@keyframes celebrate {
+    0% {
+        transform: scale(0.3) rotate(-15deg);
+        opacity: 0;
+        filter: blur(10px);
+    }
+
+    70% {
+        transform: scale(1.1) rotate(5deg);
+        filter: blur(0);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+/* Floating Heart Elements */
+.heart {
+    position: absolute;
+    pointer-events: none;
+    z-index: 5;
+    animation: floatUp 4s ease-in forwards;
+    background: linear-gradient(135deg, #ff0050, #ff8fa3, #ff0050);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(110vh) scale(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+        transform: translateY(80vh) scale(1) rotate(20deg);
+    }
+
+    100% {
+        transform: translateY(-20vh) scale(1.8) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 12px white;
+    pointer-events: none;
+    z-index: 100;
+    animation: sparkleFade 1s var(--bezier) forwards;
+}
+
+@keyframes sparkleFade {
+    0% {
+        transform: scale(0) rotate(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.5) rotate(180deg);
+        opacity: 0;
+    }
+}
+
+
+/* CONTENT SCALING using Container Queries within #game-world */
+@container (max-width: 600px) {
+    .container {
+        width: 90cqi;
+        /* 90% of game-world width */
+        padding: 3rem 1.5rem;
+        border-radius: 30px;
+        max-width: none;
+    }
+
+    h1 {
+        /* Scale font based on CONTAINER width */
+        font-size: clamp(1.8rem, 8cqi, 3rem);
+        margin-bottom: 2rem;
+        line-height: 1.2;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 1.5rem;
+        width: 100%;
+        min-height: auto;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 80cqi;
+        padding: 1.2rem 0;
+        font-size: 1.4rem;
+    }
+
+    #successMessage h1 {
+        font-size: 10cqi;
+    }
+}
